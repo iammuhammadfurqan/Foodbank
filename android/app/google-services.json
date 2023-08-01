@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "894970073440",
+    "project_id": "food-bank-65df0",
+    "storage_bucket": "food-bank-65df0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:894970073440:android:3ae241da5a96663c0d4e05",
+        "android_client_info": {
+          "package_name": "com.example.foodbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "894970073440-5hcn0q4a1huumdc530qs5qic7h990i1p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvUVgUmtItjNmAc_T1cTUddmqQeEKTDm4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "894970073440-5hcn0q4a1huumdc530qs5qic7h990i1p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

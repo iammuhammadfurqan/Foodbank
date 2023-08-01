@@ -1,0 +1,144 @@
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:foodbank/mapInterfaceVolunteer.dart';
+
+import 'package:foodbank/volunteerProfile.dart';
+import 'package:foodbank/widgets/donationType.dart';
+
+class HomeScreenVolunteer extends StatefulWidget {
+  @override
+  State<HomeScreenVolunteer> createState() => _HomeScreenVolunteerState();
+}
+
+class _HomeScreenVolunteerState extends State<HomeScreenVolunteer> {
+  int _selectedIndex = 0;
+
+  void _navigationBottomBar(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Home'),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Let\'s Search',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Search for available food donations in your area and help reduce food waste while feeding those in need.',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: Color(0xFFF9990A),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MapScreen()),
+                            );
+                          },
+                          child: Text('Find Food'),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.transparent,
+                            elevation: 0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Nourishing the Needy',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 16),
+            CarouselSlider(
+              items: [
+                Image.asset('assets/images/donator1.jfif'),
+                Image.asset('assets/images/donator2.png'),
+                Image.asset('assets/images/donator3.png'),
+              ],
+              options: CarouselOptions(
+                autoPlay: true,
+                aspectRatio: 16 / 9,
+                enlargeCenterPage: true,
+                enableInfiniteScroll: true,
+              ),
+            ),
+            SizedBox(height: 16),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _navigationBottomBar,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => VolunteerProfile()));
+              },
+              child: Icon(Icons.person),
+            ),
+            label: "Profile",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: "Chat",
+          ),
+        ],
+      ),
+    );
+  }
+}
