@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AdDetails extends StatelessWidget {
+  const AdDetails({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context); // Implement back button functionality here
           },
@@ -14,7 +16,7 @@ class AdDetails extends StatelessWidget {
         actions: [
           PopupMenuButton<String>(
             itemBuilder: (BuildContext context) => [
-              PopupMenuItem<String>(
+              const PopupMenuItem<String>(
                 value: 'User History',
                 child: Text('User History'),
               ),
@@ -33,14 +35,14 @@ class AdDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
+              const Center(
                 child: CircleAvatar(
                   backgroundImage: AssetImage('assets/images/profile.png'),
                   radius: 40,
                 ),
               ),
-              SizedBox(height: 8),
-              Center(
+              const SizedBox(height: 8),
+              const Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -52,7 +54,7 @@ class AdDetails extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               AspectRatio(
                 aspectRatio: 16 / 9,
                 child: Image.asset(
@@ -60,21 +62,21 @@ class AdDetails extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 "Details",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 16),
-              Row(
+              const SizedBox(height: 16),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Food Type'),
                   Text('Pizza'), // Replace this with the dynamic food type
                 ],
               ),
-              SizedBox(height: 8),
-              Row(
+              const SizedBox(height: 8),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Preferred Time'),
@@ -82,8 +84,8 @@ class AdDetails extends StatelessWidget {
                       '12:00 PM'), // Replace this with the dynamic preferred time
                 ],
               ),
-              SizedBox(height: 8),
-              Row(
+              const SizedBox(height: 8),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Preferred Date'),
@@ -91,21 +93,21 @@ class AdDetails extends StatelessWidget {
                       '2023-04-01'), // Replace this with the dynamic preferred date
                 ],
               ),
-              SizedBox(height: 8),
-              Row(
+              const SizedBox(height: 8),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Food Quantity'),
                   Text('2'), // Replace this with the dynamic food quantity
                 ],
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
                     // Implement request button functionality here
                   },
-                  child: Text('Request'),
+                  child: const Text('Request'),
                 ),
               ),
             ],

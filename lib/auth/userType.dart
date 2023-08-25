@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:foodbank/createPage.dart';
-
-import 'package:flutter/material.dart';
+import 'package:foodbank/auth/createPage.dart';
 
 import 'createPageReceiver.dart';
 
 class UserType extends StatelessWidget {
+  const UserType({super.key});
+
   @override
   Widget build(BuildContext context) {
+    var userType;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context); // Implement back button functionality here
           },
         ),
-        title: Text("User Type"),
+        title: const Text("User Type"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -24,30 +25,37 @@ class UserType extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Container(
+              SizedBox(
                 height: 200,
                 width: 200,
                 child: Image.asset('./assets/images/usertype.png'),
               ),
-              Text(
+              const Text(
                 'Food Bank',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 'Select Method',
                 style: TextStyle(fontSize: 18),
               ),
-              SizedBox(height: 26),
+              const SizedBox(height: 26),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CreatePage())),
+                    onTap: () {
+                      userType = "Donator";
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreatePage(
+                                    userType: userType,
+                                  )));
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -56,7 +64,7 @@ class UserType extends StatelessWidget {
                           width: 2,
                         ),
                       ),
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         radius: 50,
                         backgroundColor: Color(0xFFF9990A),
                         child: Text(
@@ -71,16 +79,21 @@ class UserType extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text("OR"),
-                  SizedBox(height: 40),
+                  const Text("OR"),
+                  const SizedBox(height: 40),
                   GestureDetector(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreatePageReceiver())),
+                    onTap: () {
+                      userType = "Volunteer";
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreatePage(
+                                    userType: userType,
+                                  )));
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -89,7 +102,7 @@ class UserType extends StatelessWidget {
                           width: 2,
                         ),
                       ),
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         radius: 50,
                         backgroundColor: Color(0xFFF9990A),
                         child: Text(

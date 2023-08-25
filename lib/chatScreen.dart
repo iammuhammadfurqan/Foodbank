@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class ChatScreen extends StatelessWidget {
   final String username;
 
-  ChatScreen({required this.username});
+  const ChatScreen({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -30,10 +30,10 @@ class ChatScreen extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Expanded(
+                const Expanded(
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Type a message',
@@ -41,12 +41,12 @@ class ChatScreen extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChatScreen(
+                        builder: (context) => const ChatScreen(
                           username: 'Asad',
                         ),
                       ),
@@ -58,7 +58,7 @@ class ChatScreen extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {},
-            child: Text('Confirmation'),
+            child: const Text('Confirmation'),
           ),
         ],
       ),

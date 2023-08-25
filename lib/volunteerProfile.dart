@@ -6,6 +6,8 @@ import 'package:foodbank/updateProfile.dart';
 import 'package:foodbank/userHistory.dart';
 
 class VolunteerProfile extends StatelessWidget {
+  const VolunteerProfile({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,42 +15,42 @@ class VolunteerProfile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Text(
+          const Text(
             "Volunteer Profile",
             style: TextStyle(
                 fontSize: 20,
                 color: Colors.black87,
                 fontWeight: FontWeight.w900),
           ),
-          SizedBox(height: 20),
-          CircleAvatar(
+          const SizedBox(height: 20),
+          const CircleAvatar(
             radius: 50,
             backgroundImage: AssetImage('assets/images/profile.png'),
           ),
-          SizedBox(height: 20),
-          Text(
+          const SizedBox(height: 20),
+          const Text(
             'Muhammad',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 10),
-          Text(
+          const SizedBox(height: 10),
+          const Text(
             'muhammad@gmail.com',
             style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
-          SizedBox(height: 30),
-          Text(
+          const SizedBox(height: 30),
+          const Text(
             "Welcome Back!",
             textAlign: TextAlign.left,
             style: TextStyle(fontSize: 20),
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           Container(
-            margin: EdgeInsets.all(20),
+            margin: const EdgeInsets.all(20),
             child: Column(
               children: [
                 InkWell(
@@ -57,9 +59,9 @@ class VolunteerProfile extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                ProfileUpdateScreen())); // handle icon click
+                                const ProfileUpdateScreen())); // handle icon click
                   },
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Icon(Icons.settings),
@@ -71,7 +73,7 @@ class VolunteerProfile extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 InkWell(
@@ -80,9 +82,9 @@ class VolunteerProfile extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                ActiveRequest())); // handle icon click
+                                const ActiveRequest())); // handle icon click
                   },
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Icon(Icons.volunteer_activism_rounded),
@@ -94,7 +96,7 @@ class VolunteerProfile extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 InkWell(
@@ -103,9 +105,9 @@ class VolunteerProfile extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                UserHistory())); // handle icon click
+                                const UserHistory())); // handle icon click
                   },
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Icon(Icons.history_outlined),
@@ -117,7 +119,7 @@ class VolunteerProfile extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 14,
                 ),
                 InkWell(
@@ -126,9 +128,9 @@ class VolunteerProfile extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                LoginPageReceiver())); // handle icon click
+                                const LoginPageReceiver())); // handle icon click
                   },
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Icon(Icons.logout),
@@ -140,7 +142,7 @@ class VolunteerProfile extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
               ],

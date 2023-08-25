@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ConfirmPassword extends StatefulWidget {
+  const ConfirmPassword({super.key});
+
   @override
   _ConfirmPasswordState createState() => _ConfirmPasswordState();
 }
@@ -14,47 +16,47 @@ class _ConfirmPasswordState extends State<ConfirmPassword> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'New Password',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 20.0),
-              Text(
+              const SizedBox(height: 20.0),
+              const Text(
                 'Enter New Password',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               _buildPasswordField(),
-              SizedBox(height: 20.0),
-              Text(
+              const SizedBox(height: 20.0),
+              const Text(
                 'Confirm Password',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               _buildConfirmPasswordField(),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
@@ -63,7 +65,7 @@ class _ConfirmPasswordState extends State<ConfirmPassword> {
                       print('Password changed');
                     }
                   },
-                  child: Text('Change Password'),
+                  child: const Text('Change Password'),
                 ),
               ),
             ],
@@ -81,7 +83,7 @@ class _ConfirmPasswordState extends State<ConfirmPassword> {
       ),
       child: TextFormField(
         obscureText: true,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
         ),
@@ -104,7 +106,7 @@ class _ConfirmPasswordState extends State<ConfirmPassword> {
       ),
       child: TextFormField(
         obscureText: true,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
         ),

@@ -14,9 +14,9 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   final _foodItemsController = TextEditingController();
   final _addressController = TextEditingController();
 
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
 
-  static const LatLng _center = const LatLng(45.521563, -122.677433);
+  static const LatLng _center = LatLng(45.521563, -122.677433);
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -33,7 +33,7 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Food Details'),
+        title: const Text('Food Details'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -43,34 +43,34 @@ class _FoodDetailsScreenState extends State<FoodDetailsScreen> {
             children: [
               TextField(
                 controller: _foodItemsController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Food Items',
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextField(
                 controller: _addressController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Address',
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               SizedBox(
                 height: 200.0,
                 child: GoogleMap(
                   onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
+                  initialCameraPosition: const CameraPosition(
                     target: _center,
                     zoom: 11.0,
                   ),
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {},
-                child: Text('Save'),
+                child: const Text('Save'),
               ),
             ],
           ),
@@ -88,9 +88,9 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
 
-  static const LatLng _center = const LatLng(45.521563, -122.677433);
+  static const LatLng _center = LatLng(45.521563, -122.677433);
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -100,11 +100,11 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Map'),
+        title: const Text('Map'),
       ),
       body: Column(
         children: [
-          TextField(
+          const TextField(
             decoration: InputDecoration(
               labelText: 'Search',
               border: OutlineInputBorder(),
@@ -115,7 +115,7 @@ class _MapScreenState extends State<MapScreen> {
               height: 200.0,
               child: GoogleMap(
                 onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
+                initialCameraPosition: const CameraPosition(
                   target: _center,
                   zoom: 11.0,
                 ),
@@ -126,8 +126,8 @@ class _MapScreenState extends State<MapScreen> {
             width: double.infinity,
             child: ElevatedButton.icon(
               onPressed: () {},
-              icon: Icon(Icons.directions_car),
-              label: Text('Get Directions'),
+              icon: const Icon(Icons.directions_car),
+              label: const Text('Get Directions'),
             ),
           ),
         ],
@@ -143,7 +143,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Food Donation'),
+        title: const Text('Food Donation'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -152,14 +152,14 @@ class HomePage extends StatelessWidget {
           children: [
             Text(
               'Welcome to Food Donation!',
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Text(
               'Donate your surplus food to people in need.',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
-            SizedBox(height: 32.0),
+            const SizedBox(height: 32.0),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -167,23 +167,23 @@ class HomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => FoodDetailsScreen()),
+                        builder: (context) => const FoodDetailsScreen()),
                   );
                 },
-                child: Text('Donate Food'),
+                child: const Text('Donate Food'),
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MapScreen()),
+                    MaterialPageRoute(builder: (context) => const MapScreen()),
                   );
                 },
-                child: Text('Find Food'),
+                child: const Text('Find Food'),
               ),
             ),
           ],

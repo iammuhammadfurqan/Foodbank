@@ -3,44 +3,46 @@ import 'package:flutter/services.dart';
 import './confirmPassword.dart';
 
 class PasswordVerificationReceiver extends StatelessWidget {
+  const PasswordVerificationReceiver({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text("Verification"),
+        title: const Text("Verification"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Verification',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20.0),
-            Text(
+            const SizedBox(height: 20.0),
+            const Text(
               'Enter Code',
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10.0),
-            Text(
+            const SizedBox(height: 10.0),
+            const Text(
               'We have sent you a four digits code to your email!',
               style: TextStyle(fontSize: 16.0),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -50,20 +52,20 @@ class PasswordVerificationReceiver extends StatelessWidget {
                 _buildDigitBox(),
               ],
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   "Didn't Receive Code?",
                   style: TextStyle(fontSize: 16.0),
                 ),
-                SizedBox(width: 5.0),
+                const SizedBox(width: 5.0),
                 GestureDetector(
                   onTap: () {
                     // handle resend code action
                   },
-                  child: Text(
+                  child: const Text(
                     'Resend',
                     style: TextStyle(
                       color: Colors.blue,
@@ -74,16 +76,16 @@ class PasswordVerificationReceiver extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             Center(
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ConfirmPassword()));
+                          builder: (context) => const ConfirmPassword()));
                 },
-                child: Text('Verify Email'),
+                child: const Text('Verify Email'),
               ),
             ),
           ],
@@ -96,7 +98,7 @@ class PasswordVerificationReceiver extends StatelessWidget {
     return Container(
       width: 50.0,
       height: 50.0,
-      margin: EdgeInsets.symmetric(horizontal: 10.0),
+      margin: const EdgeInsets.symmetric(horizontal: 10.0),
       decoration: BoxDecoration(
         border: Border.all(width: 1.0, color: Colors.black),
         borderRadius: BorderRadius.circular(5.0),
@@ -104,7 +106,7 @@ class PasswordVerificationReceiver extends StatelessWidget {
       child: TextField(
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
         ),
         maxLengthEnforcement: MaxLengthEnforcement.none,

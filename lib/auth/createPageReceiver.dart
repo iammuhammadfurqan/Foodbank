@@ -5,14 +5,18 @@ import 'package:foodbank/verifyAccountPageVolunteer.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../LoginPage.dart';
+
 class CreatePageReceiver extends StatefulWidget {
-  const CreatePageReceiver({Key? key}) : super(key: key);
+  final String userType;
+  const CreatePageReceiver({Key? key, required this.userType})
+      : super(key: key);
 
   @override
-  _CreatePageState createState() => _CreatePageState();
+  CreatePageState createState() => CreatePageState();
 }
 
-class _CreatePageState extends State<CreatePageReceiver> {
+class CreatePageState extends State<CreatePageReceiver> {
   // Initialize Firestore instance
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
@@ -24,7 +28,7 @@ class _CreatePageState extends State<CreatePageReceiver> {
       TextEditingController();
 
   final String alreadyHaveAccountText = 'Already have an account? ';
-
+  var isLoading = false;
   @override
   void dispose() {
     _nameController.dispose();
@@ -33,6 +37,50 @@ class _CreatePageState extends State<CreatePageReceiver> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _createUser() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _emailController.text, password: _passwordController.text);
+      // if the user is created successfully
+      if (userCredential.user != null) {
+        // add the user data to firestore
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .set({
+          'name': _nameController.text,
+          'email': _emailController.text,
+          'number': _numberController.text,
+          'userType': widget.userType,
+          "createdAt": FieldValue.serverTimestamp(),
+        }).then((value) {
+          // navigate to verify account page
+
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const LoginPage()));
+        });
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('The password provided is too weak.')));
+      } else if (e.code == 'email-already-in-use') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('The account already exists for that email.')));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('An error occured, please try again')));
+    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -48,7 +96,7 @@ class _CreatePageState extends State<CreatePageReceiver> {
         title: const Text('Volunteer Signup'),
       ),
       body: Container(
-        margin: EdgeInsets.all(40),
+        margin: const EdgeInsets.all(40),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -65,7 +113,7 @@ class _CreatePageState extends State<CreatePageReceiver> {
                         color: Colors.orange),
                   ),
                   const SizedBox(height: 20),
-                  Text(
+                  const Text(
                     'Create New Account',
                     style: TextStyle(
                       fontSize: 18,
@@ -82,12 +130,13 @@ class _CreatePageState extends State<CreatePageReceiver> {
                       return null;
                     },
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person_2_sharp),
+                      prefixIcon: const Icon(Icons.person_2_sharp),
                       hintText: 'Enter your Name',
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.circular(25.0), // Set border radius
-                        borderSide: BorderSide(width: 1.0), // Set border width
+                        borderSide:
+                            const BorderSide(width: 1.0), // Set border width
                       ),
                     ),
                   ),
@@ -103,12 +152,13 @@ class _CreatePageState extends State<CreatePageReceiver> {
                       return null;
                     },
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email),
+                      prefixIcon: const Icon(Icons.email),
                       hintText: 'Enter your email',
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.circular(25.0), // Set border radius
-                        borderSide: BorderSide(width: 1.0), // Set border width
+                        borderSide:
+                            const BorderSide(width: 1.0), // Set border width
                       ),
                     ),
                   ),
@@ -123,12 +173,13 @@ class _CreatePageState extends State<CreatePageReceiver> {
                     controller: _numberController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.phone),
+                      prefixIcon: const Icon(Icons.phone),
                       hintText: 'Enter your Number',
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.circular(25.0), // Set border radius
-                        borderSide: BorderSide(width: 1.0), // Set border width
+                        borderSide:
+                            const BorderSide(width: 1.0), // Set border width
                       ),
                     ),
                   ),
@@ -145,12 +196,13 @@ class _CreatePageState extends State<CreatePageReceiver> {
                     },
                     obscureText: true,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock_rounded),
+                      prefixIcon: const Icon(Icons.lock_rounded),
                       hintText: 'Enter your Password',
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.circular(25.0), // Set border radius
-                        borderSide: BorderSide(width: 1.0), // Set border width
+                        borderSide:
+                            const BorderSide(width: 1.0), // Set border width
                       ),
                     ),
                   ),
@@ -167,93 +219,66 @@ class _CreatePageState extends State<CreatePageReceiver> {
                     },
                     obscureText: true,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock_rounded),
+                      prefixIcon: const Icon(Icons.lock_rounded),
                       hintText: 'Confirm Password',
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.circular(25.0), // Set border radius
-                        borderSide: BorderSide(width: 1.0), // Set border width
+                        borderSide:
+                            const BorderSide(width: 1.0), // Set border width
                       ),
                     ),
                   ),
                   const SizedBox(height: 32),
-                  SizedBox(
-                    width: 200,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          try {
-                            UserCredential userCredential = await FirebaseAuth
-                                .instance
-                                .createUserWithEmailAndPassword(
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                            );
-
-                            if (userCredential.user != null) {
-                              final CollectionReference usersCollection =
-                                  FirebaseFirestore.instance
-                                      .collection('users');
-
-                              await usersCollection
-                                  .doc(userCredential.user!.uid)
-                                  .set({
-                                'email': _emailController.text,
-                                'name': _nameController.text,
-                                'number': _numberController.text,
-                                'password': _passwordController.text,
-                              });
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        VerifyAccountPageVolunteer()),
-                              );
-                            }
-                          } on FirebaseAuthException catch (e) {
-                            if (e.code == 'weak-password') {
-                              print('The password provided is too weak.');
-                            } else if (e.code == 'email-already-in-use') {
-                              print(
-                                  'The account already exists for that email.');
-                            }
-                          } catch (e) {
-                            print(e);
-                          }
-                        }
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
+                  isLoading
+                      ? const CircularProgressIndicator()
+                      : SizedBox(
+                          width: 200,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                if (_confirmPasswordController.text ==
+                                    _passwordController.text) {
+                                  await _createUser();
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'Passwords do not match, please try again')));
+                                }
+                              }
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: const Text(
+                                'Create Account',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
                         ),
-                        child: const Text(
-                          'Create Account',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         alreadyHaveAccountText,
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => LoginPageReceiver(),
+                              builder: (context) => const LoginPageReceiver(),
                             ),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'Login',
                           style: TextStyle(
                             fontSize: 16,

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -6,157 +8,210 @@ import 'package:url_launcher/url_launcher.dart';
 import 'chatScreen.dart';
 
 class MapGoogle extends StatefulWidget {
+  final bool isVolunteer;
+  const MapGoogle({super.key, required this.isVolunteer});
+
   @override
-  _MapScreenState createState() => _MapScreenState();
+  MapScreenState createState() => MapScreenState();
 }
 
-class _MapScreenState extends State<MapGoogle> {
+class MapScreenState extends State<MapGoogle> {
   late GoogleMapController mapController;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<Marker> markers = [];
+
+  bool alreadyRequested = false;
 
   @override
   void initState() {
     super.initState();
-    initializeMarkers();
+    fetchDonations();
+  }
+
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> donations = [];
+  bool isLoading = false;
+  bool sending = false;
+  void fetchDonations() {
+    setState(() {
+      isLoading = true;
+    });
+    FirebaseFirestore.instance.collection('donations').get().then((value) {
+      print(value.docs);
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> dat = value.docs;
+      if (dat.isNotEmpty) {
+        setState(() {
+          donations = dat;
+        });
+
+        for (var donation in donations) {
+          final latitude = donation.data()['location'].toString().split(',')[0];
+          final longitude =
+              donation.data()['location'].toString().split(',')[1];
+          markers.add(
+            Marker(
+              markerId: MarkerId(donation.id),
+              position: LatLng(
+                double.parse(latitude),
+                double.parse(longitude),
+              ),
+              onTap: () async {
+                await checkIfAlreadyRequested(
+                    donation.id, donation, latitude, longitude);
+              },
+            ),
+          );
+        }
+      }
+      setState(() {
+        isLoading = false;
+      });
+    });
   }
 
   void initializeMarkers() {
-    // Define your markers here
-    List<CustomMarker> customMarkers = [
-      CustomMarker(
-        id: '1',
-        pictureUrl: 'https://example.com/marker1.jpg',
-        name: 'Marker 1',
-        description: 'This is marker 1',
-        latitude: 32.15567,
-        longitude: 74.18705,
-      ),
-      CustomMarker(
-        id: '2',
-        pictureUrl: 'https://example.com/marker2.jpg',
-        name: 'Marker 2',
-        description: 'This is marker 2',
-        latitude: 32.49268000,
-        longitude: 74.53134000,
-      ),
-      CustomMarker(
-        id: '3',
-        pictureUrl: 'https://example.com/marker2.jpg',
-        name: 'Marker 3',
-        description:
-            'Hello, Sialkot is one of the famoue city of Punjab,Pakistan. It is famous for sprots',
-        latitude: 32.334984,
-        longitude: 74.53134000,
-      ),
-      // Add more markers here
-    ];
-
-    for (var marker in customMarkers) {
-      markers.add(
-        Marker(
-          markerId: MarkerId(marker.id),
-          position: LatLng(marker.latitude, marker.longitude),
-          onTap: () {
-            _showMarkerDetails(marker);
-          },
-        ),
-      );
-    }
+    fetchDonations();
   }
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
 
-  Future<void> _findShortestRoute(
-      double destinationLat, double destinationLng) async {
-    Position currentPosition = await Geolocator.getCurrentPosition();
-    double startLat = currentPosition.latitude;
-    double startLng = currentPosition.longitude;
-
-    String googleMapsUrl =
-        'https://www.google.com/maps/dir/?api=1&origin=$startLat,$startLng&destination=$destinationLat,$destinationLng';
-
-    if (await canLaunch(googleMapsUrl)) {
-      await launch(googleMapsUrl);
-    } else {
-      throw 'Could not launch $googleMapsUrl';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Food Bank Map'),
+        title: const Text('Food Bank Map'),
       ),
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          target: LatLng(32.15567, 74.18705),
-          zoom: 12.0,
-        ),
-        markers: Set.from(markers),
-      ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     // Replace the marker position below with the desired marker to find the route to
-      //     _findShortestRoute(37.7749, -122.4194);
-      //   },
-      //   child: Icon(Icons.directions),
-      // ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: const CameraPosition(
+                target: LatLng(32.15567, 74.18705),
+                zoom: 12.0,
+              ),
+              markers: Set.from(markers),
+            ),
     );
   }
 
-  void _showMarkerDetails(CustomMarker marker) {
+  void _showMarkerDetails(CustomMarker marker, isRequested) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return Container(
           height: 230,
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Marker Details',
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
                 'Name: ${marker.name}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 'Description: ${marker.description}',
-                style: TextStyle(fontSize: 16.0),
+                style: const TextStyle(fontSize: 16.0),
               ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatScreen(profileId: marker.id),
-                    ),
-                  );
-                },
-                child: Text('Chat'),
-              ),
+              const SizedBox(height: 16),
+
+              isRequested
+                  ? const Text("You have already requested this food")
+                  : ElevatedButton(
+                      onPressed: () {
+                        requestFood(marker);
+                      },
+                      child: const Text("Request Food")),
               // Add more details or widgets as needed
             ],
           ),
         );
       },
     );
+  }
+
+  void requestFood(dontaion) {
+    FirebaseFirestore.instance.collection("requests").doc().set({
+      "donationId": dontaion.id,
+      "userId": FirebaseAuth.instance.currentUser!.uid.toString(),
+      "status": "pending",
+    }).then((value) {
+      //add a requesters field in the donation document to keep track of the requesters
+      FirebaseFirestore.instance
+          .collection("donations")
+          .doc(dontaion.id)
+          .update({
+        "requesters": FieldValue.arrayUnion(
+            [FirebaseAuth.instance.currentUser!.uid.toString()])
+      }).then((value) {
+        //show a snackbar on top of the screen to show the sucess message
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: const Text('Requets Sent'),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          margin: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.height - 100,
+              right: 20,
+              left: 20),
+        ));
+
+        Navigator.pop(context);
+      });
+      //show a snackbar to show the sucess message
+    });
+  }
+
+  //a function that will check if the current user has already requested the food
+  Future<void> checkIfAlreadyRequested(
+      String donationId, donation, latitude, longitude) {
+    setState(() {
+      sending = true;
+    });
+    print("checking if already requested");
+    //get the donation document
+    FirebaseFirestore.instance
+        .collection("donations")
+        .doc(donationId)
+        .get()
+        .then((value) {
+      //get the requesters array
+      List<dynamic> requesters = value.data()!['requesters'];
+      //check if the current user is in the requesters array
+      if (requesters.contains(FirebaseAuth.instance.currentUser!.uid)) {
+        setState(() {
+          alreadyRequested = true;
+        });
+        print("already requested: $alreadyRequested");
+      }
+    }).then((value) {
+      _showMarkerDetails(
+        CustomMarker(
+          id: donation.id,
+          pictureUrl: donation.data()['image'],
+          name: donation.data()['foodType'],
+          description: "Quantity: ${donation.data()['quantity']}",
+          latitude: double.parse(latitude),
+          longitude: double.parse(longitude),
+        ),
+        alreadyRequested,
+      );
+    });
+
+    return Future.value();
   }
 }
 

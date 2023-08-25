@@ -1,44 +1,48 @@
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: OrderStatus(),
     );
   }
 }
 
 class OrderStatus extends StatelessWidget {
+  const OrderStatus({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text('Order Status'),
+        title: const Text('Order Status'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Order Status',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16),
-            Text(
+            const SizedBox(height: 16),
+            const Text(
               'Accepted!',
               style: TextStyle(fontSize: 18, color: Colors.green),
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             Container(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(5),
@@ -46,7 +50,7 @@ class OrderStatus extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Chat with Donator',
                     style: TextStyle(fontSize: 18),
                   ),
@@ -55,7 +59,7 @@ class OrderStatus extends StatelessWidget {
                       // Add your onTap functionality here
                       print('Clicked on chat icon');
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.chat,
                       size: 24,
                       color: Colors.blue,

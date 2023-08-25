@@ -1,10 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import "./passwordVerificationCode.dart";
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'createPage.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -30,19 +28,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         _verificationCode = verificationCode;
       });
       final emailSentDialog = AlertDialog(
-        title: Text('Email sent'),
+        title: const Text('Email sent'),
         content: Text('A password reset email has been sent to $email'),
       );
       await showDialog(context: context, builder: (ctx) => emailSentDialog);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         final errorDialog = AlertDialog(
-          title: Text('User not found'),
+          title: const Text('User not found'),
           content: Text('No user found for email $email'),
         );
         await showDialog(context: context, builder: (ctx) => errorDialog);
       } else {
-        final errorDialog = AlertDialog(
+        const errorDialog = AlertDialog(
           title: Text('Error'),
           content:
               Text('An error occurred while sending the password reset email.'),
@@ -62,7 +60,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return Scaffold(
       // ...
       body: Container(
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         child: Column(
           children: [
             // ...
@@ -72,9 +70,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   await _sendVerificationCode();
                 }
               },
-              child: Text('Send Verification Code'),
+              child: const Text('Send Verification Code'),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Text(_verificationCode.isEmpty
                 ? ''
                 : 'Verification Code: $_verificationCode'),

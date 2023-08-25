@@ -3,17 +3,19 @@ import './donationDetails.dart';
 import './donationDetailsNGO.dart';
 
 class DonationType extends StatelessWidget {
+  const DonationType({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context); // Implement back button functionality here
           },
         ),
-        title: Text('My Donation'),
+        title: const Text('My Donation'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -22,61 +24,65 @@ class DonationType extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset('./assets/images/breakfast.png'),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 'Food Bank',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 32),
-              Text(
+              const SizedBox(height: 32),
+              const Text(
                 'Want to share food?',
                 style: TextStyle(fontSize: 18),
               ),
-              SizedBox(height: 8),
-              Text(
+              const SizedBox(height: 8),
+              const Text(
                 'Select Method',
                 style: TextStyle(fontSize: 18),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         backgroundImage: AssetImage('assets/images/food.png'),
                         radius: 40,
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DonationDetail()));
+                                  builder: (context) => const DonationDetailNGO(
+                                        isNGO: false,
+                                      )));
                         },
-                        child: Text('Individual'),
+                        child: const Text('Individual'),
                       ),
                     ],
                   ),
-                  SizedBox(width: 16),
-                  Text('or'),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
+                  const Text('or'),
+                  const SizedBox(width: 16),
                   Column(
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         backgroundImage: AssetImage('assets/images/food.png'),
                         radius: 40,
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DonationDetailNGO()));
+                                  builder: (context) => const DonationDetailNGO(
+                                        isNGO: true,
+                                      )));
                         },
-                        child: Text('NGO Agent'),
+                        child: const Text('NGO Agent'),
                       ),
                     ],
                   ),

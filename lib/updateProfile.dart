@@ -1,17 +1,17 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:foodbank/DonatorProfile.dart';
-import 'package:foodbank/donatorProfile.dart';
 
 import 'package:image_picker/image_picker.dart';
 
 class ProfileUpdateScreen extends StatefulWidget {
+  const ProfileUpdateScreen({super.key});
+
   @override
-  _ProfileUpdateScreenState createState() => _ProfileUpdateScreenState();
+  ProfileUpdateScreenState createState() => ProfileUpdateScreenState();
 }
 
-class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
+class ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   File? _image;
 
   Future<void> _pickImage(ImageSource source) async {
@@ -22,12 +22,14 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
     });
   }
 
+  void updateProfile() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -42,7 +44,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
               onTap: () {
                 showModalBottomSheet(
                   context: context,
-                  builder: (context) => Container(
+                  builder: (context) => SizedBox(
                     height: 150.0,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -52,16 +54,16 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                             _pickImage(ImageSource.camera);
                             Navigator.pop(context);
                           },
-                          icon: Icon(Icons.camera),
-                          label: Text('Take Photo'),
+                          icon: const Icon(Icons.camera),
+                          label: const Text('Take Photo'),
                         ),
                         TextButton.icon(
                           onPressed: () {
                             _pickImage(ImageSource.gallery);
                             Navigator.pop(context);
                           },
-                          icon: Icon(Icons.image),
-                          label: Text('Choose from Gallery'),
+                          icon: const Icon(Icons.image),
+                          label: const Text('Choose from Gallery'),
                         ),
                       ],
                     ),
@@ -72,62 +74,62 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                 radius: 50.0,
                 backgroundImage: _image != null ? FileImage(_image!) : null,
                 child: _image == null
-                    ? Icon(
+                    ? const Icon(
                         Icons.camera_alt,
                         size: 50.0,
                       )
                     : null,
               ),
             ),
-            SizedBox(height: 20.0),
-            Text(
+            const SizedBox(height: 20.0),
+            const Text(
               'Change Username',
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10.0),
-            TextField(
+            const SizedBox(height: 10.0),
+            const TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Enter username',
               ),
             ),
-            SizedBox(height: 20.0),
-            Text(
+            const SizedBox(height: 20.0),
+            const Text(
               'Update Password',
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10.0),
-            TextField(
+            const SizedBox(height: 10.0),
+            const TextField(
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Enter new password',
               ),
             ),
-            SizedBox(height: 10.0),
-            TextField(
+            const SizedBox(height: 10.0),
+            const TextField(
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Confirm password',
               ),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ProfileUpdateScreen())); // handle update profile action
+                            const ProfileUpdateScreen())); // handle update profile action
               },
-              child: Text('Update Profile'),
+              child: const Text('Update Profile'),
             ),
           ],
         ),

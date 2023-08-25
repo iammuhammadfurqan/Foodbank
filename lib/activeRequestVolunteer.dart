@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:foodbank/adDetails.dart';
 import 'package:foodbank/adDetailsActiveRequest.dart';
 
 class ActiveRequest extends StatelessWidget {
+  const ActiveRequest({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context); // Handle back button press
           },
@@ -16,15 +17,15 @@ class ActiveRequest extends StatelessWidget {
       ),
       body: Column(
         children: [
-          SizedBox(height: 20),
-          Text(
+          const SizedBox(height: 20),
+          const Text(
             'Active Requests!',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Expanded(
             child: ListView.builder(
               itemCount: 3, // replace with actual item count
@@ -35,7 +36,7 @@ class ActiveRequest extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                AdDetailsRequestVolunteer())); // handle click action
+                                const AdDetailsRequestVolunteer())); // handle click action
                   },
                   child: Card(
                     child: Padding(
@@ -47,8 +48,8 @@ class ActiveRequest extends StatelessWidget {
                             width: 50,
                             height: 50,
                           ),
-                          SizedBox(width: 5),
-                          Expanded(
+                          const SizedBox(width: 5),
+                          const Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -59,7 +60,7 @@ class ActiveRequest extends StatelessWidget {
                             ),
                           ),
                           IconButton(
-                            icon: Icon(Icons.delete),
+                            icon: const Icon(Icons.delete),
                             onPressed: () {
                               // handle delete action
                             },

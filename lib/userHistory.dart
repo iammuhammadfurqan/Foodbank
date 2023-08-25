@@ -1,64 +1,97 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:foodbank/widgets/donation_widget.dart';
 
-class UserHistory extends StatelessWidget {
+class UserHistory extends StatefulWidget {
+  const UserHistory({super.key});
+
+  @override
+  State<UserHistory> createState() => _UserHistoryState();
+}
+
+class _UserHistoryState extends State<UserHistory> {
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> donations = [];
+  bool isLoading = false;
+  void fetchDonations() {
+    print(FirebaseAuth.instance.currentUser!.uid);
+    setState(() {
+      isLoading = true;
+    });
+    FirebaseFirestore.instance
+        .collection('donations')
+        .where("donator", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) {
+      print(value.docs);
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> dat = value.docs;
+      if (dat.isNotEmpty) {
+        setState(() {
+          donations = dat;
+        });
+      }
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    fetchDonations();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context); // Handle back button press
-          },
+        title: const Text(
+          'Your past donations (All time)s',
+          style: TextStyle(
+              fontSize: 0, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 20),
-          Text(
-            'My History!',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 20),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 3, // replace with actual item count
-              itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/food.png',
-                              width: 50,
-                              height: 50,
-                            ),
-                            SizedBox(width: 5),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Food Type'),
-                                Text('Category of food'),
-                                Text('Date'),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(5),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: donations.isEmpty
+                        ? const Text("No Active donations.")
+                        : const Text(""),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 5),
+                          child: DonationWidget(
+                              foodType: donations[index]['foodType'],
+                              date: donations[index]['preferredDate'],
+                              imageUrl: donations[index]['image'],
+                              location: donations[index]['location'],
+                              quantity: donations[index]['quantity'],
+                              time: donations[index]['preferredTime'],
+                              isNGO: donations[index]['isNGO'],
+                              organizationId: donations[index]
+                                  ['organization_id'],
+                              deleteDonation: () {} //delete donation
+                              ),
+                        );
+                      },
+                      itemCount: donations.length,
                     ),
                   ),
-                );
-              },
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -4,6 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class DonationDetail extends StatefulWidget {
+  const DonationDetail({super.key});
+
   @override
   _AddFoodDetailsState createState() => _AddFoodDetailsState();
 }
@@ -42,15 +44,15 @@ class _AddFoodDetailsState extends State<DonationDetail> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text('Food Details'),
+        title: const Text('Food Details'),
       ),
       body: Container(
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
@@ -59,7 +61,7 @@ class _AddFoodDetailsState extends State<DonationDetail> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Add Location',
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
@@ -72,13 +74,13 @@ class _AddFoodDetailsState extends State<DonationDetail> {
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter location details',
                       suffixIcon: Icon(Icons.location_on),
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  Text(
+                  const SizedBox(height: 10.0),
+                  const Text(
                     'Food Type',
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
@@ -91,13 +93,13 @@ class _AddFoodDetailsState extends State<DonationDetail> {
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Fast Food ',
                       suffixIcon: Icon(Icons.food_bank),
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  Text(
+                  const SizedBox(height: 10.0),
+                  const Text(
                     'Preferred Time',
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
@@ -110,13 +112,13 @@ class _AddFoodDetailsState extends State<DonationDetail> {
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: '11:00 AM to 02:00 PM',
                       suffixIcon: Icon(Icons.watch_later_sharp),
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  Text(
+                  const SizedBox(height: 10.0),
+                  const Text(
                     'Preffered Date',
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
@@ -129,13 +131,13 @@ class _AddFoodDetailsState extends State<DonationDetail> {
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: '01-Feb-2023',
                       suffixIcon: Icon(Icons.calendar_month_outlined),
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  Text(
+                  const SizedBox(height: 10.0),
+                  const Text(
                     'Quantity',
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
@@ -148,18 +150,18 @@ class _AddFoodDetailsState extends State<DonationDetail> {
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter quantity in Kgs',
                       suffixIcon: Icon(Icons.format_list_numbered),
                     ),
                   ),
-                  SizedBox(height: 15.0),
-                  Text(
+                  const SizedBox(height: 15.0),
+                  const Text(
                     'Add Photo',
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 5.0),
+                  const SizedBox(height: 5.0),
                   Center(
                     child: InkWell(
                       onTap: () {
@@ -183,7 +185,7 @@ class _AddFoodDetailsState extends State<DonationDetail> {
                                     size: 50.0,
                                     color: Colors.grey.withOpacity(0.8),
                                   ),
-                                  SizedBox(height: 10.0),
+                                  const SizedBox(height: 10.0),
                                   Text(
                                     'Add Photo',
                                     style: TextStyle(
@@ -205,7 +207,7 @@ class _AddFoodDetailsState extends State<DonationDetail> {
                             ),
                     ),
                   ),
-                  SizedBox(height: 15.0),
+                  const SizedBox(height: 15.0),
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
@@ -214,12 +216,12 @@ class _AddFoodDetailsState extends State<DonationDetail> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomePage(),
+                              builder: (context) => const HomePage(),
                             ),
                           );
                         }
                       },
-                      child: Text(
+                      child: const Text(
                         'Donate',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),

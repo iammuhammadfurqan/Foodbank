@@ -20,9 +20,9 @@ class _NavBarState extends State<NavBar> {
   }
 
   final List<Widget> _pages = [
-    HomePage(),
-    DonatorProfile(),
-    ChatScreen(username: "hussnain")
+    const HomePage(),
+    const DonatorProfile(),
+    const ChatScreen(username: "hussnain")
   ];
 
   @override
@@ -36,7 +36,7 @@ class _NavBarState extends State<NavBar> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _navigationBottomBar,
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: "Home",

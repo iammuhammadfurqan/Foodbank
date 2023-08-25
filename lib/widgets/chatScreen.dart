@@ -29,13 +29,13 @@ class Chat {
 class ChatScreen extends StatefulWidget {
   final String profileId;
 
-  ChatScreen({required this.profileId});
+  const ChatScreen({super.key, required this.profileId});
 
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  ChatScreenState createState() => ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class ChatScreenState extends State<ChatScreen> {
   final TextEditingController _textEditingController = TextEditingController();
   late Database _database;
   List<Chat> _chatMessages = [];
@@ -102,7 +102,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat'),
+        title: const Text('Chat'),
         backgroundColor: Colors.green,
       ),
       body: Column(
@@ -117,7 +117,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     title: Align(
                       alignment: Alignment.topRight,
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: Colors.green[100],
                           borderRadius: BorderRadius.circular(8),
@@ -127,13 +127,13 @@ class _ChatScreenState extends State<ChatScreen> {
                           children: [
                             Text(
                               _chatMessages[index].message,
-                              style: TextStyle(fontSize: 16),
+                              style: const TextStyle(fontSize: 16),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
                               _formatDateTime(_chatMessages[index].timestamp),
-                              style:
-                                  TextStyle(fontSize: 12, color: Colors.grey),
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.grey),
                             ),
                           ],
                         ),
@@ -146,7 +146,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           Container(
             color: Colors.green[100],
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
                 Expanded(
@@ -157,13 +157,14 @@ class _ChatScreenState extends State<ChatScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 16.0),
                       filled: true,
                       fillColor: Colors.white,
                     ),
                   ),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 ElevatedButton(
                   onPressed: () {
                     String message = _textEditingController.text;
@@ -172,12 +173,12 @@ class _ChatScreenState extends State<ChatScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
+                    backgroundColor: Colors.green,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Send',
                     style: TextStyle(
                       color: Colors.white,

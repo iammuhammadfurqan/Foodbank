@@ -5,38 +5,40 @@ import 'package:foodbank/homeScreen.dart';
 import 'chatScreen.dart';
 
 class RequestScreen extends StatelessWidget {
+  const RequestScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text("Requests"),
+        title: const Text("Requests"),
       ),
       body: Column(
         children: [
-          SizedBox(height: 20),
-          Text("Pending!", style: TextStyle(fontSize: 24)),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
+          const Text("Pending!", style: TextStyle(fontSize: 24)),
+          const SizedBox(height: 20),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.grey),
             ),
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 25,
                       backgroundImage: AssetImage("assets/images/profile.png"),
                     ),
-                    SizedBox(width: 16),
-                    Column(
+                    const SizedBox(width: 16),
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("John Doe", style: TextStyle(fontSize: 18)),
@@ -45,19 +47,19 @@ class RequestScreen extends StatelessWidget {
                             style: TextStyle(color: Colors.grey)),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     IconButton(
-                      icon: Icon(Icons.clear),
+                      icon: const Icon(Icons.clear),
                       onPressed: () {},
                     ),
                     IconButton(
-                      icon: Icon(Icons.check),
+                      icon: const Icon(Icons.check),
                       onPressed: () {},
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
-                Row(
+                const SizedBox(height: 16),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Icon(Icons.star, color: Colors.amber),
@@ -72,7 +74,7 @@ class RequestScreen extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Container(
@@ -80,18 +82,18 @@ class RequestScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.grey),
             ),
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 25,
                       backgroundImage: AssetImage("assets/images/profile.png"),
                     ),
-                    SizedBox(width: 16),
-                    Column(
+                    const SizedBox(width: 16),
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("John Doe", style: TextStyle(fontSize: 18)),
@@ -100,19 +102,19 @@ class RequestScreen extends StatelessWidget {
                             style: TextStyle(color: Colors.grey)),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     IconButton(
-                      icon: Icon(Icons.clear),
+                      icon: const Icon(Icons.clear),
                       onPressed: () {},
                     ),
                     IconButton(
-                      icon: Icon(Icons.check),
+                      icon: const Icon(Icons.check),
                       onPressed: () {},
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
-                Row(
+                const SizedBox(height: 16),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Icon(Icons.star, color: Colors.amber),
@@ -127,7 +129,7 @@ class RequestScreen extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Container(
@@ -135,18 +137,18 @@ class RequestScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.grey),
             ),
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 25,
                       backgroundImage: AssetImage("assets/images/profile.png"),
                     ),
-                    SizedBox(width: 16),
-                    Column(
+                    const SizedBox(width: 16),
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("John Doe", style: TextStyle(fontSize: 18)),
@@ -155,27 +157,27 @@ class RequestScreen extends StatelessWidget {
                             style: TextStyle(color: Colors.grey)),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     IconButton(
-                      icon: Icon(Icons.clear),
+                      icon: const Icon(Icons.clear),
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ChatScreen(
+                              builder: (context) => const ChatScreen(
                                     username: 'Asad',
                                   )),
                         );
                       },
                     ),
                     IconButton(
-                      icon: Icon(Icons.check),
+                      icon: const Icon(Icons.check),
                       onPressed: () {},
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
-                Row(
+                const SizedBox(height: 16),
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Icon(Icons.star, color: Colors.amber),
@@ -193,8 +195,8 @@ class RequestScreen extends StatelessWidget {
           Column(
             children: [
               Container(
-                margin: EdgeInsets.all(12),
-                padding: EdgeInsets.all(16),
+                margin: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -202,33 +204,33 @@ class RequestScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
+                          MaterialPageRoute(builder: (context) => const HomePage()),
                         );
                       },
-                      icon: Icon(Icons.home),
+                      icon: const Icon(Icons.home),
                     ),
                     IconButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DonatorProfile()),
+                              builder: (context) => const DonatorProfile()),
                         );
                       },
-                      icon: Icon(Icons.person),
+                      icon: const Icon(Icons.person),
                     ),
                     IconButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ChatScreen(
+                            builder: (context) => const ChatScreen(
                               username: "Asad",
                             ),
                           ),
                         );
                       },
-                      icon: Icon(Icons.chat),
+                      icon: const Icon(Icons.chat),
                     ),
                   ],
                 ),

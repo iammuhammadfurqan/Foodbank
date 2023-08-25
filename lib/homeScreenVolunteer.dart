@@ -3,9 +3,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:foodbank/mapInterfaceVolunteer.dart';
 
 import 'package:foodbank/volunteerProfile.dart';
-import 'package:foodbank/widgets/donationType.dart';
 
 class HomeScreenVolunteer extends StatefulWidget {
+  const HomeScreenVolunteer({super.key});
+
   @override
   State<HomeScreenVolunteer> createState() => _HomeScreenVolunteerState();
 }
@@ -23,15 +24,15 @@ class _HomeScreenVolunteerState extends State<HomeScreenVolunteer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(8),
@@ -39,7 +40,7 @@ class _HomeScreenVolunteerState extends State<HomeScreenVolunteer> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
@@ -51,7 +52,7 @@ class _HomeScreenVolunteerState extends State<HomeScreenVolunteer> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
                     'Search for available food donations in your area and help reduce food waste while feeding those in need.',
                     style: TextStyle(
@@ -65,21 +66,21 @@ class _HomeScreenVolunteerState extends State<HomeScreenVolunteer> {
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0),
-                          color: Color(0xFFF9990A),
+                          color: const Color(0xFFF9990A),
                         ),
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MapScreen()),
+                                  builder: (context) => const MapScreen()),
                             );
                           },
-                          child: Text('Find Food'),
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.transparent,
+                            backgroundColor: Colors.transparent,
                             elevation: 0,
                           ),
+                          child: const Text('Find Food'),
                         ),
                       ),
                     ],
@@ -87,15 +88,15 @@ class _HomeScreenVolunteerState extends State<HomeScreenVolunteer> {
                 ],
               ),
             ),
-            SizedBox(height: 16),
-            Text(
+            const SizedBox(height: 16),
+            const Text(
               'Nourishing the Needy',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             CarouselSlider(
               items: [
                 Image.asset('assets/images/donator1.jfif'),
@@ -109,7 +110,7 @@ class _HomeScreenVolunteerState extends State<HomeScreenVolunteer> {
                 enableInfiniteScroll: true,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
           ],
         ),
       ),
@@ -117,7 +118,7 @@ class _HomeScreenVolunteerState extends State<HomeScreenVolunteer> {
         currentIndex: _selectedIndex,
         onTap: _navigationBottomBar,
         items: [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: "Home",
           ),
@@ -127,13 +128,13 @@ class _HomeScreenVolunteerState extends State<HomeScreenVolunteer> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => VolunteerProfile()));
+                        builder: (context) => const VolunteerProfile()));
               },
-              child: Icon(Icons.person),
+              child: const Icon(Icons.person),
             ),
             label: "Profile",
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.chat),
             label: "Chat",
           ),

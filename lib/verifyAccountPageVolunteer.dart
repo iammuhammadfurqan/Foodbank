@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:foodbank/loginPageReceiver.dart';
-import './LoginPage.dart';
 
 class VerifyAccountPageVolunteer extends StatefulWidget {
   const VerifyAccountPageVolunteer({Key? key}) : super(key: key);
@@ -119,7 +118,7 @@ class _VerifyAccountPageState extends State<VerifyAccountPageVolunteer> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            LoginPageReceiver())); // TODO: Verify the account
+                            const LoginPageReceiver())); // TODO: Verify the account
               },
               child: const Text('Verify'),
             ),

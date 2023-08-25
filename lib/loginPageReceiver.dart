@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:foodbank/createPageReceiver.dart';
+import 'package:foodbank/auth/createPageReceiver.dart';
 import 'package:foodbank/homeScreenVolunteer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'forgetPasswordVolunteer.dart';
 
 class LoginPageReceiver extends StatefulWidget {
+  const LoginPageReceiver({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -23,48 +25,6 @@ class _LoginPageState extends State<LoginPageReceiver> {
 
     if (isValid) {
       _formKey.currentState!.save();
-
-      try {
-        if (_emailController.text.isNotEmpty &&
-            _passController.text.isNotEmpty) {
-          UserCredential userCredential =
-              await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: _emailController.text,
-            password: _passController.text,
-          );
-
-          if (userCredential.user != null) {
-            final CollectionReference usersCollection =
-                FirebaseFirestore.instance.collection('users');
-
-            DocumentSnapshot userSnapshot =
-                await usersCollection.doc(userCredential.user!.uid).get();
-
-            if (userSnapshot.exists) {
-              // user exists in Firestore, navigate to home screen
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreenVolunteer()),
-              );
-            } else {
-              // user doesn't exist in Firestore, show error message
-              print('No user found for that email in Firestore.');
-            }
-          }
-        } else {
-          print('Email or password cannot be empty');
-        }
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          print('No user found for that email.');
-        } else if (e.code == 'wrong-password') {
-          print('Wrong password provided for that user.');
-        } else {
-          print('Error occurred during sign in: $e');
-        }
-      } catch (e) {
-        print('Error occurred during sign in: $e');
-      }
     }
   }
 
@@ -81,7 +41,7 @@ class _LoginPageState extends State<LoginPageReceiver> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Welcome Back!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -89,12 +49,12 @@ class _LoginPageState extends State<LoginPageReceiver> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   Image.asset(
                     'assets/images/login.png',
                     height: 150.0,
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -115,7 +75,7 @@ class _LoginPageState extends State<LoginPageReceiver> {
                             child: Form(
                               child: TextFormField(
                                 controller: _emailController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: 'Enter your Email',
                                   prefixIcon: Icon(Icons.email),
                                   border: InputBorder.none,
@@ -138,7 +98,7 @@ class _LoginPageState extends State<LoginPageReceiver> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20.0),
+                          const SizedBox(height: 20.0),
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
@@ -149,7 +109,7 @@ class _LoginPageState extends State<LoginPageReceiver> {
                             ),
                             child: TextFormField(
                               controller: _passController,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'Enter your Password',
                                 prefixIcon: Icon(Icons.lock),
                                 border: InputBorder.none,
@@ -175,17 +135,17 @@ class _LoginPageState extends State<LoginPageReceiver> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ForgotPasswordVolunteer(),
+                          builder: (context) => const ForgotPasswordVolunteer(),
                         ),
                       ); // Handle forgot password link tapped
                     },
-                    child: Text(
+                    child: const Text(
                       'Forgot Password?',
                       style: TextStyle(
                         color: Color(0xFFF9990A),
@@ -193,13 +153,18 @@ class _LoginPageState extends State<LoginPageReceiver> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   SizedBox(
                     width: 250,
                     height: 50.0,
                     child: ElevatedButton(
                       onPressed: _submitForm,
-                      child: Text(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: const Text(
                         'LOGIN',
                         style: TextStyle(
                           color: Colors.black,
@@ -207,31 +172,29 @@ class _LoginPageState extends State<LoginPageReceiver> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         "Don't have an account?",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(width: 8.0),
+                      const SizedBox(width: 8.0),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CreatePageReceiver()));
+                                  builder: (context) =>
+                                      const CreatePageReceiver(
+                                        userType: "",
+                                      )));
                           // Handle sign up link tapped
                         },
-                        child: Text(
+                        child: const Text(
                           'Sign Up',
                           style: TextStyle(
                             color: Color(0xFFF9990A),
