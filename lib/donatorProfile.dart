@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:foodbank/activeDonationDonor.dart';
 import 'package:foodbank/activeRequestVolunteer.dart';
 import 'package:foodbank/loginPage.dart';
+import 'package:foodbank/pages/food_requests_page.dart';
 import 'package:foodbank/pages/requests_page.dart';
 import 'package:foodbank/updateProfile.dart';
 import 'package:foodbank/userHistory.dart';
@@ -163,6 +164,29 @@ class _DonatorProfileState extends State<DonatorProfile> {
                                       'Active Donations',
                                       style: TextStyle(fontSize: 24),
                                     ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 14,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const FoodRequestsPage())); // handle icon click
+                          },
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.request_quote),
+                              SizedBox(width: 14),
+                              Text(
+                                'Food Requests',
+                                style: TextStyle(fontSize: 24),
+                              ),
                             ],
                           ),
                         ),

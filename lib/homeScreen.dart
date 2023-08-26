@@ -34,13 +34,16 @@ class _HomePageState extends State<HomePage> {
       if (userSnapshot['userType'] == 'Volunteer') {
         setState(() {
           isVolunteer = true;
-          isLoading = false;
         });
       }
     } else {
       // user doesn't exist in Firestore, show error message
       print('No user found for that email in Firestore.');
     }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
