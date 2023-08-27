@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:foodbank/chatScreen.dart';
 import 'package:foodbank/donatorProfile.dart';
+import 'package:foodbank/pages/chats_overview_screen.dart';
 import 'package:foodbank/widgets/Map.dart';
 
 import 'package:foodbank/widgets/donationType.dart';
@@ -183,9 +184,17 @@ class _HomePageState extends State<HomePage> {
             ),
             label: "Profile",
           ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: "Map",
+          BottomNavigationBarItem(
+            icon: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChatsOverviewScreen()));
+              },
+              child: const Icon(Icons.chat),
+            ),
+            label: "Chat",
           ),
         ],
       ),

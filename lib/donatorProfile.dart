@@ -167,29 +167,34 @@ class _DonatorProfileState extends State<DonatorProfile> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 14,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const FoodRequestsPage())); // handle icon click
-                          },
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                        if (_userType != "Volunteer")
+                          Column(
                             children: [
-                              Icon(Icons.request_quote),
-                              SizedBox(width: 14),
-                              Text(
-                                'Food Requests',
-                                style: TextStyle(fontSize: 24),
+                              const SizedBox(
+                                height: 14,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const FoodRequestsPage())); // handle icon click
+                                },
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.request_quote),
+                                    SizedBox(width: 14),
+                                    Text(
+                                      'Food Requests',
+                                      style: TextStyle(fontSize: 24),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                        ),
                         const SizedBox(
                           height: 14,
                         ),
