@@ -22,16 +22,22 @@ class _MapPickerState extends State<MapPicker> {
   final Completer<GoogleMapController> _controller = Completer();
 
   final initZoom = MapPicker.DEFAULT_ZOOM;
-  LatLng initCoordinates = const LatLng(32, 74); // Default initial coordinates
+  LatLng initCoordinates =
+      const LatLng(32.2048925, 74.1925375); // Default initial coordinates
+
+  //a function that will get the current location and set it as the initial coordinates
+  void updateInitialCoordinates() async {
+    Position position = await getCurrentLocation();
+    setState(() {
+      initCoordinates = LatLng(position.latitude, position.longitude);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     getCurrentLocation().then((position) {
-      setState(() {
-        initCoordinates = LatLng(position.latitude, position.longitude);
-        print("init coordinates: " + initCoordinates.toString());
-      });
+      updateInitialCoordinates();
     });
   }
 
@@ -44,6 +50,7 @@ class _MapPickerState extends State<MapPicker> {
     }
 
     Position position = await Geolocator.getCurrentPosition();
+    print("Pos:" + position.toString());
     return position;
   }
 
@@ -60,7 +67,7 @@ class _MapPickerState extends State<MapPicker> {
             const Text("Long press to select a location"),
             const SizedBox(height: 16),
             SizedBox(
-              height: 300,
+              height: 500,
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   var maxWidth = constraints.biggest.width;
@@ -74,7 +81,7 @@ class _MapPickerState extends State<MapPicker> {
                         child: GoogleMap(
                           initialCameraPosition: CameraPosition(
                             target: initCoordinates,
-                            zoom: 7,
+                            zoom: 17,
                           ),
                           onMapCreated: (GoogleMapController controller) {
                             _controller.complete(controller);

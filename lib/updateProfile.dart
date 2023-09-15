@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +16,7 @@ class ProfileUpdateScreen extends StatefulWidget {
 
 class ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   File? _image;
+  var isLoading = false;
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
@@ -22,12 +26,53 @@ class ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
     });
   }
 
-  void updateProfile() {}
+  var imgUrl = "";
+
+  Future<void> uploadImage(File imageFile) async {
+    setState(() {
+      isLoading = true;
+    });
+    final FirebaseStorage _storage = FirebaseStorage.instance;
+
+    if (_image == null) {
+      return;
+    }
+
+    String imgPath = imageFile.path.split("/").last;
+    Reference reference = _storage
+        .ref()
+        .child("users/${FirebaseAuth.instance.currentUser?.uid}/$imgPath");
+    Task upload = reference.putFile(imageFile);
+    await upload.then((v) async {
+      String url = await v.ref.getDownloadURL();
+      setState(() {
+        imgUrl = url;
+        print("image url: $imgUrl");
+      });
+    });
+
+    //update the document with the image url
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({'imgUrl': imgUrl}).then((value) {
+      //show a snackbar to show that the profile has been updated
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Profile Updated'),
+        ),
+      );
+      setState(() {
+        isLoading = true;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text("Update Profile"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -82,52 +127,9 @@ class ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
               ),
             ),
             const SizedBox(height: 20.0),
-            const Text(
-              'Change Username',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            const TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter username',
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            const Text(
-              'Update Password',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            const TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter new password',
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            const TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Confirm password',
-              ),
-            ),
-            const SizedBox(height: 20.0),
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const ProfileUpdateScreen())); // handle update profile action
+              onPressed: () async {
+                await uploadImage(_image!);
               },
               child: const Text('Update Profile'),
             ),

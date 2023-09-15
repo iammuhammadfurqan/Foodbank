@@ -37,9 +37,9 @@ class DonationWidget extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton(
-                onPressed: () {}, icon: const Icon(Icons.remove_red_eye)),
-            const SizedBox(width: 10),
+            // IconButton(
+            //     onPressed: () {}, icon: const Icon(Icons.remove_red_eye)),
+            // const SizedBox(width: 10),
             IconButton(
                 onPressed: () {
                   deleteDonation!();

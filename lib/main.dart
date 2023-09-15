@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:foodbank/auth/createPage.dart';
 
 import 'package:foodbank/auth/userType.dart';
 import 'package:foodbank/homeScreen.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.orange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: user == null ? const GetStarted() : const HomePage(),
+      home: user == null ? const GetStarted() : const HomeScreen(),
     );
   }
 }
@@ -73,9 +74,10 @@ class GetStarted extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const UserType()),
-                  );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const CreatePage(userType: "Donator")));
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

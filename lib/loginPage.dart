@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:foodbank/scan_cnic.dart';
 
 import './forgetPassword.dart';
 import 'auth/createPage.dart';
@@ -47,7 +48,7 @@ class LoginPageState extends State<LoginPage> {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePage(),
+                builder: (context) => const HomeScreen(),
               ),
               (route) => false,
             );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodbank/auth/createPageReceiver.dart';
+import 'package:foodbank/auth/createPage.dart';
 import 'package:foodbank/passwordVerificationVolunteer.dart';
 
 class ForgotPasswordVolunteer extends StatefulWidget {
@@ -84,7 +84,7 @@ class _ForgotPasswordState extends State<ForgotPasswordVolunteer> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const CreatePageReceiver(
+                            builder: (context) => const CreatePage(
                                   userType: "",
                                 )));
                   },

@@ -61,8 +61,10 @@ class _AddFoodDetailsState extends State<DonationDetailNGO> {
     _preferredDateController.clear();
     _quantityController.clear();
     _orgController.clear();
+
     setState(() {
       _image = null;
+      isLoading = false;
     });
   }
 
@@ -99,10 +101,8 @@ class _AddFoodDetailsState extends State<DonationDetailNGO> {
       "organization_id":
           _orgController.text.isEmpty ? "" : _orgController.text.toString(),
       "isActive": true,
+      "requesters": [],
     }).then((value) {
-      setState(() {
-        isLoading = false;
-      });
       //show a snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -118,10 +118,10 @@ class _AddFoodDetailsState extends State<DonationDetailNGO> {
   }
 
   void saveDonationDetails() {
-    setState(() {
-      isLoading = true;
-    });
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
       uploadImage(_image!);
     }
   }
@@ -209,17 +209,35 @@ class _AddFoodDetailsState extends State<DonationDetailNGO> {
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
-                  TextFormField(
-                    controller: _preferredTimeController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter a preferred time';
-                      }
-                      return null;
+                  GestureDetector(
+                    onTap: () {
+                      //show time picker and set the time to _preferredTimeController
+
+                      showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      ).then((value) {
+                        if (value != null) {
+                          setState(() {
+                            _preferredTimeController.text =
+                                value.format(context);
+                          });
+                        }
+                      });
                     },
-                    decoration: const InputDecoration(
-                      hintText: '11:00 AM to 02:00 PM',
-                      suffixIcon: Icon(Icons.watch_later_sharp),
+                    child: TextFormField(
+                      enabled: false,
+                      controller: _preferredTimeController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a preferred time';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        hintText: '11:00 AM to 02:00 PM',
+                        suffixIcon: Icon(Icons.watch_later_sharp),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 5.0),
@@ -228,17 +246,36 @@ class _AddFoodDetailsState extends State<DonationDetailNGO> {
                     style:
                         TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
-                  TextFormField(
-                    controller: _preferredDateController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter a preferred date';
-                      }
-                      return null;
+                  GestureDetector(
+                    onTap: () {
+                      //show date picker and set the date to _preferredDateController
+                      showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(DateTime.now().year + 5),
+                      ).then((value) {
+                        if (value != null) {
+                          setState(() {
+                            _preferredDateController.text =
+                                "${value.day}-${value.month}-${value.year}";
+                          });
+                        }
+                      });
                     },
-                    decoration: const InputDecoration(
-                      hintText: '01-Feb-2023',
-                      suffixIcon: Icon(Icons.calendar_month_outlined),
+                    child: TextFormField(
+                      enabled: false,
+                      controller: _preferredDateController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a preferred date';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        hintText: '01-Feb-2023',
+                        suffixIcon: Icon(Icons.calendar_month_outlined),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 5.0),
@@ -357,20 +394,6 @@ class _AddFoodDetailsState extends State<DonationDetailNGO> {
         ),
       ),
     );
-  }
-
-  getLocationCoordinatesFromMap() {
-    //open map and get coordinates
-    //set the coordinates to _locationController
-    // _locationController.text = "lat: $lat, long: $long";
-  }
-  Future<void> openGoogleMaps() async {
-    final String mapUrl = 'https://www.google.com/maps';
-    if (await canLaunch(mapUrl)) {
-      await launch(mapUrl);
-    } else {
-      throw 'Could not launch $mapUrl';
-    }
   }
 
   Future<Map<String, double>?> getSelectedLocation() async {

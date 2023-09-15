@@ -47,9 +47,7 @@ class _UserHistoryState extends State<UserHistory> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Your past donations (All time)s',
-          style: TextStyle(
-              fontSize: 0, fontWeight: FontWeight.bold, color: Colors.white),
+          'Your past Donations',
         ),
       ),
       body: isLoading

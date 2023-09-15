@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:foodbank/chat/chat_screen.dart';
 import 'package:foodbank/widgets/donation_widget.dart';
 import 'package:foodbank/widgets/request_widget.dart';
 
 class ActiveRequestsPage extends StatefulWidget {
-  const ActiveRequestsPage({super.key});
+  final bool isVolunteer;
+  const ActiveRequestsPage({super.key, required this.isVolunteer});
 
   @override
   State<ActiveRequestsPage> createState() => _ActiveRequestsPage();
@@ -40,11 +42,30 @@ class _ActiveRequestsPage extends State<ActiveRequestsPage> {
         for (var request in requests) {
           fetchDonationDetails(request.id);
         }
+        fetchDonationDetailsFromReq();
       }
+    });
+  }
+
+  var data = {};
+
+  Future<void> fetchDonationDetailsFromReq() async {
+    //loop through the requests list and find the donation with the given id
+    for (var request in requests) {
+      await FirebaseFirestore.instance
+          .collection('donations')
+          .doc(request['donationId'])
+          .get()
+          .then((value) {
+        setState(() {
+          data[request.id] = value.data();
+        });
+      });
+
       setState(() {
         isLoading = false;
       });
-    });
+    }
   }
 
   // a function that will fetch the donation details using the donation id
@@ -137,6 +158,7 @@ class _ActiveRequestsPage extends State<ActiveRequestsPage> {
 
   @override
   Widget build(BuildContext context) {
+    //print("data: " + data.isEmpty.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Active Requests'),
@@ -155,32 +177,62 @@ class _ActiveRequestsPage extends State<ActiveRequestsPage> {
               padding: const EdgeInsets.all(5),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: requests.isEmpty
-                        ? const Text("No Active Requests.")
-                        : const Text(""),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 5),
-                            child: RequestWidget(
-                              donationId: requests[index]['donationId'],
-                              userId: requests[index]['userId'],
-                              status: requests[index]['status'],
-                              deleteRequest: () =>
-                                  delRequest(requests[index].id),
-                            ));
-                      },
-                      itemCount: requests.length,
-                    ),
-                  ),
+                  data.isEmpty
+                      ? Center(child: const Text("No Active Requests."))
+                      : Expanded(
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 5),
+                                  child: RequestWidget(
+                                    donationId: requests[index]['donationId'],
+                                    userId: requests[index]['userId'],
+                                    status: requests[index]['status'],
+                                    foodType: data.values
+                                        .elementAt(index)['foodType'],
+                                    imageUrl:
+                                        data.values.elementAt(index)['image'],
+                                    quantity: data.values
+                                        .elementAt(index)['quantity'],
+                                    isActive: data.values
+                                        .elementAt(index)['isActive'],
+                                    deleteRequest: () =>
+                                        delRequest(requests[index].id),
+                                    startChat: () {
+                                      _chat(requests[index]['userId'],
+                                          requests[index]['donationId']);
+                                    },
+                                  ));
+                            },
+                            itemCount: requests.length,
+                          ),
+                        ),
                 ],
               ),
             ),
     );
+  }
+
+  void _chat(request, donationId) {
+    //go to donations collection with the donation id and get the donator id
+    FirebaseFirestore.instance
+        .collection('donations')
+        .doc(donationId)
+        .get()
+        .then((value) {
+      String donatorId = value.data()!['donator'];
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatScreen(
+            receiverId: donatorId,
+            receiverName: "Chat with the Donator",
+            isVolunteer: widget.isVolunteer,
+            donationId: donationId,
+          ),
+        ),
+      );
+    });
   }
 }

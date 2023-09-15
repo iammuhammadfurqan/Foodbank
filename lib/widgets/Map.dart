@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import 'chatScreen.dart';
+import '../utils.dart';
 
 class MapGoogle extends StatefulWidget {
   final bool isVolunteer;
@@ -67,10 +65,6 @@ class MapScreenState extends State<MapGoogle> {
     });
   }
 
-  void initializeMarkers() {
-    fetchDonations();
-  }
-
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
@@ -87,7 +81,7 @@ class MapScreenState extends State<MapGoogle> {
               onMapCreated: _onMapCreated,
               initialCameraPosition: const CameraPosition(
                 target: LatLng(32.15567, 74.18705),
-                zoom: 12.0,
+                zoom: 13,
               ),
               markers: Set.from(markers),
             ),
@@ -121,7 +115,7 @@ class MapScreenState extends State<MapGoogle> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Description: ${marker.description}',
+                '${marker.description}',
                 style: const TextStyle(fontSize: 16.0),
               ),
               const SizedBox(height: 16),
@@ -203,7 +197,8 @@ class MapScreenState extends State<MapGoogle> {
           id: donation.id,
           pictureUrl: donation.data()['image'],
           name: donation.data()['foodType'],
-          description: "Quantity: ${donation.data()['quantity']}",
+          description:
+              "Quantity: ${donation.data()['quantity']}, Date: ${donation.data()['preferredDate']}, Time: ${donation.data()['preferredTime']}",
           latitude: double.parse(latitude),
           longitude: double.parse(longitude),
         ),
@@ -213,22 +208,13 @@ class MapScreenState extends State<MapGoogle> {
 
     return Future.value();
   }
-}
 
-class CustomMarker {
-  final String id;
-  final String pictureUrl;
-  final String name;
-  final String description;
-  final double latitude;
-  final double longitude;
+  //a function to show the shortest path betweeen 2 locations
+  Future<void> showShortestPath() async {
+    //get the current location of the user
+    //get the location of the donation
+    //show the shortest path between the 2 locations
 
-  CustomMarker({
-    required this.id,
-    required this.pictureUrl,
-    required this.name,
-    required this.description,
-    required this.latitude,
-    required this.longitude,
-  });
+    //get the current location of the user using package
+  }
 }

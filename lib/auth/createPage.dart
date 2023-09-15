@@ -1,6 +1,10 @@
+import 'package:cnic_scanner/cnic_scanner.dart';
+import 'package:cnic_scanner/model/cnic_model.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:foodbank/scan_cnic.dart';
+import 'package:image_picker/image_picker.dart';
 import '../verifyAccountPage.dart';
 import '../LoginPage.dart';
 
@@ -23,6 +27,7 @@ class CreatePageState extends State<CreatePage> {
       TextEditingController();
 
   final String alreadyHaveAccountText = 'Already have an account? ';
+  var newUserType = "Donator";
   var isLoading = false;
   @override
   void dispose() {
@@ -53,13 +58,18 @@ class CreatePageState extends State<CreatePage> {
           'name': _nameController.text,
           'email': _emailController.text,
           'number': _numberController.text,
-          'userType': widget.userType,
+          'userType': newUserType,
           "createdAt": FieldValue.serverTimestamp(),
+          'imgUrl': '',
+          "card_holder_name": '',
+          "card_number": '',
+          "card_expiry_date": '',
+          "dob": ""
         }).then((value) {
           // navigate to verify account page
 
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const LoginPage()));
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => MyHomePage()));
         });
       }
     } on FirebaseAuthException catch (e) {
@@ -90,7 +100,7 @@ class CreatePageState extends State<CreatePage> {
             Navigator.pop(context); // Navigate back to previous screen
           },
         ),
-        title: const Text('Donator Signup'),
+        title: const Text('Signup'),
       ),
       body: Container(
         margin: const EdgeInsets.all(40),
@@ -118,6 +128,16 @@ class CreatePageState extends State<CreatePage> {
                     ),
                   ),
                   const SizedBox(height: 16),
+                  // ElevatedButton(
+                  //     onPressed: () {
+                  //       Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (context) => MyHomePage(),
+                  //         ),
+                  //       );
+                  //     },
+                  //     child: const Text("Scan CNIC")),
                   TextFormField(
                     controller: _nameController,
                     validator: (value) {
@@ -136,6 +156,36 @@ class CreatePageState extends State<CreatePage> {
                             const BorderSide(width: 1.0), // Set border width
                       ),
                     ),
+                  ),
+                  const SizedBox(height: 16),
+                  //a drop down to show 2 options: donator and volunteer
+                  DropdownButtonFormField(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.person_2_sharp),
+                      hintText: 'Select User Type',
+                      border: OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(25.0), // Set border radius
+                        borderSide:
+                            const BorderSide(width: 1.0), // Set border width
+                      ),
+                    ),
+                    value: newUserType,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        newUserType = newValue!;
+                      });
+                    },
+                    items: <String>['Donator', 'Volunteer']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      );
+                    }).toList(),
                   ),
                   const SizedBox(height: 16),
                   TextFormField(

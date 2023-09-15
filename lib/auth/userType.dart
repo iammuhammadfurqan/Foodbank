@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodbank/auth/createPage.dart';
 
-import 'createPageReceiver.dart';
-
 class UserType extends StatelessWidget {
   const UserType({super.key});
 

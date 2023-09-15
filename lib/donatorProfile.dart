@@ -6,6 +6,7 @@ import 'package:foodbank/activeRequestVolunteer.dart';
 import 'package:foodbank/loginPage.dart';
 import 'package:foodbank/pages/food_requests_page.dart';
 import 'package:foodbank/pages/requests_page.dart';
+import 'package:foodbank/pages/user_history_vol.dart';
 import 'package:foodbank/updateProfile.dart';
 import 'package:foodbank/userHistory.dart';
 
@@ -20,8 +21,8 @@ class _DonatorProfileState extends State<DonatorProfile> {
   var isLoading = false;
   var _userName = '';
   var _userEmail = '';
-  var _userPhone = '';
   var _userType = 'User';
+  String _imgUrl = "";
   //a function to fetch the current user data from firebase
 
   Future<void> fetchUserData() async {
@@ -37,7 +38,7 @@ class _DonatorProfileState extends State<DonatorProfile> {
     setState(() {
       _userEmail = userData['email'];
       _userName = userData['name'];
-      _userPhone = userData['number'];
+      _imgUrl = userData['imgUrl'];
       _userType = userData['userType'];
       isLoading = false;
     });
@@ -54,9 +55,9 @@ class _DonatorProfileState extends State<DonatorProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(' $_userType Profile'),
-      ),
+      // appBar: AppBar(
+      //   title: Text(' $_userType Profile'),
+      // ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Container(
@@ -76,11 +77,16 @@ class _DonatorProfileState extends State<DonatorProfile> {
                   //       fontWeight: FontWeight.w900),
                   // ),
                   const SizedBox(height: 10),
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage('assets/images/profile.png'),
-                  ),
-                  const SizedBox(height: 0),
+                  _imgUrl.isEmpty
+                      ? const CircleAvatar(
+                          radius: 50,
+                          backgroundImage:
+                              AssetImage("assets/images/profile.png"))
+                      : CircleAvatar(
+                          radius: 50,
+                          backgroundImage: NetworkImage(_imgUrl),
+                        ),
+                  const SizedBox(height: 5),
                   Text(
                     _userName,
                     style: const TextStyle(
@@ -140,71 +146,13 @@ class _DonatorProfileState extends State<DonatorProfile> {
                         ),
                         InkWell(
                           onTap: () {
-                            _userType == "Volunteer"
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ActiveRequestsPage()))
-                                : Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ActiveDonations())); // handle icon click
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Icon(Icons.volunteer_activism_rounded),
-                              const SizedBox(width: 14),
-                              _userType == "Volunteer"
-                                  ? const Text('Active Requests',
-                                      style: TextStyle(fontSize: 24))
-                                  : const Text(
-                                      'Active Donations',
-                                      style: TextStyle(fontSize: 24),
-                                    ),
-                            ],
-                          ),
-                        ),
-                        if (_userType != "Volunteer")
-                          Column(
-                            children: [
-                              const SizedBox(
-                                height: 14,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const FoodRequestsPage())); // handle icon click
-                                },
-                                child: const Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(Icons.request_quote),
-                                    SizedBox(width: 14),
-                                    Text(
-                                      'Food Requests',
-                                      style: TextStyle(fontSize: 24),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        const SizedBox(
-                          height: 14,
-                        ),
-                        InkWell(
-                          onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const UserHistory())); // handle icon click
+                                    builder: (context) => _userType !=
+                                            "Volunteer"
+                                        ? const UserHistory()
+                                        : const UserHistoryVolunteer())); // handle icon click
                           },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.start,

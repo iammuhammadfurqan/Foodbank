@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodbank/auth/createPageReceiver.dart';
+import 'package:foodbank/auth/createPage.dart';
 import 'package:foodbank/homeScreenVolunteer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -188,8 +188,7 @@ class _LoginPageState extends State<LoginPageReceiver> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const CreatePageReceiver(
+                                  builder: (context) => const CreatePage(
                                         userType: "",
                                       )));
                           // Handle sign up link tapped

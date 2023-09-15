@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class RequestWidget extends StatelessWidget {
@@ -7,19 +5,33 @@ class RequestWidget extends StatelessWidget {
   final String userId;
   final String status;
   final VoidCallback? deleteRequest;
+  final VoidCallback? startChat;
+
+  final String foodType;
+  final String imageUrl;
+  final String quantity;
+  final bool isActive;
   const RequestWidget(
       {super.key,
       required this.donationId,
       required this.userId,
       required this.status,
-      this.deleteRequest});
+      this.deleteRequest,
+      this.startChat,
+      required this.foodType,
+      required this.imageUrl,
+      required this.quantity,
+      required this.isActive});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text(donationId),
-        //subtitle: Text("$quantity pieces"),
+        leading: CircleAvatar(
+          backgroundImage: NetworkImage(imageUrl),
+        ),
+        title: Text(foodType),
+        subtitle: Text("$quantity pieces"),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -48,21 +60,26 @@ class RequestWidget extends StatelessWidget {
                 : status == "accepted"
                     ?
                     //show a bordered text with outline border
-                    Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.green,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            "Accepted",
-                            style: TextStyle(
+                    GestureDetector(
+                        onTap: () {
+                          startChat!();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
                               color: Colors.green,
-                              fontWeight: FontWeight.bold,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              "Chat",
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -88,9 +105,10 @@ class RequestWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-            IconButton(
-                onPressed: () => deleteRequest!(),
-                icon: const Icon(Icons.delete))
+            if (status != "accepted")
+              IconButton(
+                  onPressed: () => deleteRequest!(),
+                  icon: const Icon(Icons.delete))
           ],
         ),
       ),
